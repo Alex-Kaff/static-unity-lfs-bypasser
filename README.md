@@ -10,7 +10,19 @@ A tool to bypass Large File Storage (LFS) limitations by splitting large files a
 4. **Generates a complete Node.js project** - Creates an Express server with all dependencies
 5. **Provides deployment-ready structure** - Ready to deploy to any Node.js hosting platform
 
-## Installation
+## Quick Start (No Installation Required)
+
+Run directly with npx:
+
+```bash
+npx static-unity-lfs-bypasser
+```
+
+Navigate to your Unity WebGL build directory and run the command above. That's it!
+
+## Installation (Optional)
+
+If you prefer to install globally:
 
 ```bash
 npm install -g static-unity-lfs-bypasser
@@ -18,7 +30,15 @@ npm install -g static-unity-lfs-bypasser
 
 ## Usage
 
+### Option 1: Run with npx (Recommended)
 Navigate to your Unity WebGL build directory and run:
+
+```bash
+npx static-unity-lfs-bypasser
+```
+
+### Option 2: Run after global installation
+If you've installed globally:
 
 ```bash
 static-unity-lfs-bypasser
@@ -32,14 +52,17 @@ static-unity-lfs-bypasser
 ### Examples
 
 ```bash
-# Use default settings (100MB threshold, output to ./lfs-bypasser-server)
-static-unity-lfs-bypasser
+# Use default settings with npx (100MB threshold, output to ./lfs-bypasser-server)
+npx static-unity-lfs-bypasser
 
-# Custom threshold and output directory
-static-unity-lfs-bypasser -t 50 -o my-game-server
+# Custom threshold and output directory with npx
+npx static-unity-lfs-bypasser -t 50 -o my-game-server
 
 # Split files larger than 75MB, output to ./game-deploy
-static-unity-lfs-bypasser --threshold 75 --output game-deploy
+npx static-unity-lfs-bypasser --threshold 75 --output game-deploy
+
+# If installed globally, you can omit 'npx'
+static-unity-lfs-bypasser -t 50 -o my-game-server
 ```
 
 ## What gets generated

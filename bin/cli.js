@@ -136,8 +136,16 @@ function startServer(port = 3000) {
                 // Set appropriate headers based on file extension
                 if (filePath.endsWith('.wasm')) {
                     res.type('application/wasm');
+                    res.setHeader('Cache-Control', 'public, max-age=31536000');
                 } else if (filePath.endsWith('.data')) {
                     res.type('application/octet-stream');
+                    res.setHeader('Cache-Control', 'public, max-age=31536000');
+                } else if (filePath.endsWith('.symbols.json')) {
+                    res.type('application/json');
+                    res.setHeader('Cache-Control', 'public, max-age=31536000');
+                } else if (filePath.endsWith('.mem')) {
+                    res.type('application/octet-stream');
+                    res.setHeader('Cache-Control', 'public, max-age=31536000');
                 }
                 
                 const endTime = Date.now();
@@ -151,14 +159,87 @@ function startServer(port = 3000) {
         next();
     });
 
+    // Special route for Unity's main HTML file with Cross-Origin headers
+    app.get('/', (req, res) => {
+        const indexPath = path.join(publicDir, 'index.html');
+        if (fs.existsSync(indexPath)) {
+            res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
+            res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
+            res.setHeader('Cache-Control', 'public, max-age=3600');
+            res.sendFile(indexPath);
+        } else {
+            res.status(404).send('Unity WebGL build not found. Make sure index.html exists in the public directory.');
+        }
+    });
+
     // Serve static files from the public directory
     app.use(express.static(publicDir, {
-        setHeaders: (res, path) => {
-            if (path.endsWith('.wasm')) res.type('application/wasm');
-            if (path.endsWith('.data')) res.type('application/octet-stream');
-            if (path.endsWith('.js.gz')) {
-                res.type('application/javascript');
+        setHeaders: (res, filePath) => {
+            // Set Unity WebGL Cross-Origin headers ONLY for HTML files
+            if (filePath.endsWith('.html')) {
+                res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
+                res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
+                res.type('text/html');
+                res.setHeader('Cache-Control', 'public, max-age=3600'); // Shorter cache for HTML
+                return; // Early return for HTML files
+            }
+            
+            // Handle compressed files first (order matters!)
+            if (filePath.endsWith('.gz')) {
                 res.setHeader('Content-Encoding', 'gzip');
+                res.setHeader('Cache-Control', 'public, max-age=31536000');
+                
+                if (filePath.endsWith('.js.gz')) {
+                    res.type('application/javascript');
+                } else if (filePath.endsWith('.wasm.gz')) {
+                    res.type('application/wasm');
+                } else if (filePath.endsWith('.data.gz')) {
+                    res.type('application/octet-stream');
+                } else if (filePath.endsWith('.symbols.json.gz')) {
+                    res.type('application/json');
+                } else if (filePath.endsWith('.mem.gz')) {
+                    res.type('application/octet-stream');
+                }
+            } else if (filePath.endsWith('.br')) {
+                res.setHeader('Content-Encoding', 'br');
+                res.setHeader('Cache-Control', 'public, max-age=31536000');
+                
+                if (filePath.endsWith('.js.br')) {
+                    res.type('application/javascript');
+                } else if (filePath.endsWith('.wasm.br')) {
+                    res.type('application/wasm');
+                } else if (filePath.endsWith('.data.br')) {
+                    res.type('application/octet-stream');
+                } else if (filePath.endsWith('.symbols.json.br')) {
+                    res.type('application/json');
+                } else if (filePath.endsWith('.mem.br')) {
+                    res.type('application/octet-stream');
+                }
+            } else if (filePath.endsWith('.lz4')) {
+                res.setHeader('Content-Encoding', 'lz4');
+                res.setHeader('Cache-Control', 'public, max-age=31536000');
+                
+                if (filePath.endsWith('.data.lz4')) {
+                    res.type('application/octet-stream');
+                }
+            } else {
+                // Handle uncompressed Unity WebGL files
+                if (filePath.endsWith('.wasm')) {
+                    res.type('application/wasm');
+                    res.setHeader('Cache-Control', 'public, max-age=31536000');
+                } else if (filePath.endsWith('.data')) {
+                    res.type('application/octet-stream');
+                    res.setHeader('Cache-Control', 'public, max-age=31536000');
+                } else if (filePath.endsWith('.js')) {
+                    res.type('application/javascript');
+                    res.setHeader('Cache-Control', 'public, max-age=31536000');
+                } else if (filePath.endsWith('.symbols.json')) {
+                    res.type('application/json');
+                    res.setHeader('Cache-Control', 'public, max-age=31536000');
+                } else if (filePath.endsWith('.mem')) {
+                    res.type('application/octet-stream');
+                    res.setHeader('Cache-Control', 'public, max-age=31536000');
+                }
             }
         }
     }));

@@ -1,13 +1,22 @@
 {
   "name": "static-unity-lfs-bypasser",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A tool to bypass LFS by splitting large files and creating a Node.js server project for Unity WebGL builds",
-  "main": "index.js",
+  "main": "bin/cli.js",
   "bin": {
     "static-unity-lfs-bypasser": "./bin/cli.js"
   },
   "scripts": {
-    "start": "node bin/cli.js"
+    "start": "node bin/cli.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alex-Kaff/static-unity-lfs-bypasser.git"
+  },
+  "homepage": "https://github.com/Alex-Kaff/static-unity-lfs-bypasser#readme",
+  "bugs": {
+    "url": "https://github.com/Alex-Kaff/static-unity-lfs-bypasser/issues"
   },
   "keywords": [
     "unity",
@@ -16,14 +25,29 @@
     "server",
     "file-splitting",
     "webgl",
-    "project-generator"
+    "project-generator",
+    "cli",
+    "express",
+    "chunks",
+    "bypass",
+    "git-lfs"
   ],
-  "author": "",
+  "author": "Alex-Kaff",
   "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "files": [
+    "bin/",
+    "lib/",
+    "README.md",
+    "package.json"
+  ],
   "dependencies": {
     "express": "^4.18.2",
     "fs-extra": "^11.2.0",
     "chalk": "^4.1.2",
     "commander": "^12.0.0"
-  }
+  },
+  "preferGlobal": true
 } 

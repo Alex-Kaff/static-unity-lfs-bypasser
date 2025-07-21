@@ -1,0 +1,53 @@
+# Development files
+.git/
+.gitignore
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+Desktop.ini
+
+# Logs and temp files
+*.log
+logs/
+tmp/
+temp/
+
+# Test files and directories
+test/
+tests/
+*.test.js
+*.spec.js
+coverage/
+
+# Documentation and examples (keep README.md)
+docs/
+examples/
+.github/
+
+# Generated test projects
+test-output/
+lfs-bypasser-server/
+test-project/
+my-game-server/
+game-deploy/
+
+# Unity WebGL build artifacts (for testing)
+public/
+chunks/
+
+# Environment files
+.env
+.env.*
+
+# Cache directories
+.npm
+.cache
+node_modules/.cache/ 
