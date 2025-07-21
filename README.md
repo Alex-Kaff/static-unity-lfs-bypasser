@@ -2,6 +2,20 @@
 
 A tool to bypass Large File Storage (LFS) limitations by splitting large files and creating a Node.js server project for Unity WebGL builds.
 
+## Motivation
+
+This CLI tool was born out of years of frustration with hosting Unity WebGL builds, particularly when dealing with platforms that don't support Git LFS. 
+
+**The Problem:** Unity WebGL builds often exceed GitHub's file size limits, forcing developers to use LFS. However, many hosting platforms (like Railway) don't support LFS, making it impossible to deploy Unity games with compression and other advanced features that require proper server configuration.
+
+**The Solution:** Rather than accepting these limitations or implementing one-off workarounds for each project, this tool provides a comprehensive solution that:
+- Bypasses LFS requirements entirely by chunking large files
+- Enables hosting on platforms like Railway, Render, and other Node.js hosts
+- Supports all Unity compression formats and server-dependent features
+- Eliminates the need for custom deployment scripts for each game
+
+After repeatedly encountering this issue across multiple Unity projects and spending countless hours on deployment workarounds, this tool was created to solve the problem once and for all. Now available on [npm](https://www.npmjs.com/package/static-unity-lfs-bypasser) for the Unity community.
+
 ## What this tool does
 
 1. **Analyzes your Unity WebGL build** - Scans for large files that would require LFS
